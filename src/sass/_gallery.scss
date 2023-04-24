@@ -1,0 +1,122 @@
+.header {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-left: auto;
+  margin-right: auto;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 10;
+  width: 100%;
+  padding: 20px 0 20px 0;
+  transition: background-color 300ms ease-out, backdrop-filter 300ms ease-out;
+}
+
+.header--no-transparency {
+  background-color: rgba(78, 80, 79, 0.8);
+  -webkit-backdrop-filter: blur(4px);
+  backdrop-filter: blur(4px);
+}
+
+.gallery-section {
+  padding: 60px 0;
+}
+
+.search-form {
+  position: relative;
+  display: flex;
+  margin: 0 auto;
+  align-items: center;
+  width: 600px;
+  font: inherit;
+  border-radius: 10px;
+}
+
+.search-input {
+  height: 40px;
+  flex-grow: 1;
+  font-size: 18px;
+  padding-left: 15px;
+  border: 1px solid #303030;
+  border-radius: 4px;
+}
+
+.search-btn {
+  font-size: 16px;
+  padding: 11px 23px;
+  background-color: #2ecc71;
+  color: #ffffff;
+  border: none;
+  text-transform: uppercase;
+  cursor: pointer;
+  margin-left: 10px;
+  transition: background-color 250ms linear;
+  border-radius: 4px;
+}
+
+.search-btn:hover,
+.search-btn:focus {
+  background-color: #27ae60;
+}
+
+.gallery {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin-left: -30px;
+  margin-top: -30px;
+  margin-bottom: 20px;
+}
+
+.gallery-link {
+  flex-basis: calc((100% - 120px) / 4);
+  margin-left: 30px;
+  margin-top: 30px;
+  min-width: 320px;
+  border: none;
+  overflow: hidden;
+  transition: all 0.3s;
+  text-decoration: none;
+}
+
+.gallery-link:hover,
+.gallery-link:focus {
+  transform: scale(1.05);
+}
+
+.photo-card {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+}
+
+.gallery-img {
+  max-width: unset;
+  object-fit: cover;
+  height: 40vh;
+  display: block;
+  border-radius: 8px;
+}
+
+.info {
+  display: flex;
+  flex-wrap: wrap;
+  padding: 10px;
+  justify-content: space-around;
+}
+
+.info-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  color: rgb(66, 65, 65);
+}
+
+.info-item:not(:first-child) {
+  margin-left: 5px;
+}
+
+#tui-pagination-container.is-hidden {
+  display: none;
+}
