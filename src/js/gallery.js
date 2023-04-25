@@ -22,6 +22,7 @@ async function onRenderPage() {
     const respons = await pixabayApi.getPopularPhotos();
     refs.gallery.innerHTML = createGalleryCards(respons.data.hits);
     lightbox.refresh();
+    autoScroll();
   } catch (err) {
     console.log(err);
   }
@@ -34,17 +35,17 @@ refs.searchForm.addEventListener('submit', onSearchFormSubmit);
 async function onSearchFormSubmit(event) {
   event.preventDefault();
 
-  window.addEventListener('scroll', handleScroll);
-
   refs.gallery.innerHTML = '';
 
   const searchQuery = event.currentTarget.elements.searchQuery.value.trim();
+
   pixabayApi.query = searchQuery;
 
   pixabayApi.resetPage();
+
   pixabayApi.page = 1;
 
-  if (searchQuery === '') {
+  if (!searchQuery) {
     alertNoEmptySearch();
     return;
   }
@@ -53,14 +54,25 @@ async function onSearchFormSubmit(event) {
     const response = await pixabayApi.fetchPhotosByQuery();
     const totalPicturs = response.data.totalHits;
 
+    if (totalPicturs >= pixabayApi.per_page) {
+      window.addEventListener('scroll', handleScroll);
+    }
+
     if (totalPicturs === 0) {
       alertNoEmptySearch();
       return;
     }
 
     createMarkup(response.data.hits);
+
     lightbox.refresh();
     autoScroll();
+
+    if (totalPicturs <= pixabayApi.per_page) {
+      Notiflix.Notify.success(`Hooray! We found ${totalPicturs} images.`);
+      alertEndOfSearch();
+      return;
+    }
 
     Notiflix.Notify.success(`Hooray! We found ${totalPicturs} images.`);
   } catch (err) {
@@ -69,22 +81,28 @@ async function onSearchFormSubmit(event) {
 }
 
 async function onLoadMore() {
-  pixabayApi.page += 1;
-
   try {
     const response = await pixabayApi.fetchPhotosByQuery();
-
-    const lastPage = Math.ceil(response.data.totalHits / pixabayApi.per_page);
+    const totalPicturs = response.data.totalHits;
+    const lastPage = Math.ceil(totalPicturs / pixabayApi.per_page);
 
     createMarkup(response.data.hits);
 
     lightbox.refresh();
     autoScroll();
 
-    if (lastPage === pixabayApi.page) {
-      alertEndOfSearch();
-      window.removeEventListener('scroll', handleScroll);
-      return;
+    if (lastPage > pixabayApi.page) {
+      if (pixabayApi.page === 1) {
+        window.addEventListener('scroll', handleScroll);
+      }
+
+      pixabayApi.page += 1;
+    } else {
+      if (lastPage === pixabayApi.page) {
+        window.removeEventListener('scroll', handleScroll);
+        alertEndOfSearch();
+        return;
+      }
     }
   } catch (err) {
     alertEndOfSearch();
