@@ -72,7 +72,6 @@ async function onLoadMore() {
       Notiflix.Notify.success(`Hooray! We found ${totalPicturs} images.`);
 
       if (totalPicturs <= pixabayApi.per_page) {
-        alertEndOfSearch();
         return;
       }
     }
