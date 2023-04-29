@@ -80,7 +80,7 @@ async function onLoadMore() {
       if (pixabayApi.page === 1) {
         window.addEventListener('scroll', handleScroll);
       }
-      pixabayApi.page += 1;
+      pixabayApi.incrementPage();
     } else {
       if (lastPage === pixabayApi.page) {
         window.removeEventListener('scroll', handleScroll);
