@@ -89,7 +89,7 @@ async function onLoadMore() {
       }
     }
   } catch (err) {
-    alertEndOfSearch();
+    console.log(err);
   }
 }
 
